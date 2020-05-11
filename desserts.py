@@ -1,14 +1,18 @@
 """Dessert classes."""
 
 
-class Cupcake:
-    """A cupcake."""
+class Dessert:
+    """A dessert."""
 
-    # Dictionary w/ key cupcake instance name, value cupcake instance
+    # Dictionary keeping track of dessert stock,
+    # with key dessert instance name, value dessert instance
     cache = {}
 
+    # Name of dessert type
+    dessert_type = "dessert"
+
     def __init__(self, name, flavor, price):
-        """Initialisation for a Cupcake instance."""
+        """Initialisation for a Dessert instance."""
 
         self.name = name
         self.flavor = flavor
@@ -21,7 +25,7 @@ class Cupcake:
     def __repr__(self):
         """Human-readable printout for debugging."""
 
-        return f'<Cupcake name="{self.name}" qty={self.qty}>'
+        return f'<{self.dessert_type.title()} name="{self.name}" qty={self.qty}>'
 
 
     def add_stock(self, amount):
@@ -31,16 +35,16 @@ class Cupcake:
 
 
     def sell(self, amount):
-        """Sell the given amount of cupcakes if available and update the qty."""
+        """Sell the given amount of desserts if available and update the qty."""
 
         if self.qty >= amount:
-            # If there are enough cupcakes, sell them and reduce the qty
+            # If there are enough desserts, sell them and reduce the qty
             self.qty = self.qty - amount
         elif self.qty == 0:
-            # If there are 0 cupcakes, indicate they're sold out
-            print("Sorry, these cupcakes are sold out")
+            # If there are 0 desserts, indicate they're sold out
+            print(f"Sorry, these {self.dessert_type}s are sold out")
         else:
-            # There are cupcakes but not enough
+            # There are desserts but not enough
             # Sell what's available and update qty to 0
             self.qty = 0
 
@@ -70,12 +74,36 @@ class Cupcake:
     def get(cls, name):
         """Return a cupcake from cls.cache if it exists."""
 
-        cupcake = cls.cache.get(name)
+        dessert = cls.cache.get(name)
 
-        if cupcake == None:
-            print("Sorry, that cupcake doesn't exist")
+        if dessert == None:
+            print(f"Sorry, that {cls.dessert_type} doesn't exist")
 
-        return cupcake
+        return dessert
+
+
+class Cupcake(Dessert):
+    """A cupcake."""
+
+    # Name of dessert type (cupcake)
+    dessert_type = "cupcake"
+
+    def __init__(self, name, flavor, price):
+        """Initialisation for a Cupcake instance."""
+
+        super().__init__(name, flavor, price)
+
+
+class Brownie(Dessert):
+    """A brownie."""
+
+    # Name of dessert type (brownie)
+    dessert_type = "brownie"
+
+    def __init__(self, name, price):
+        """Initialisation for a Brownie instance."""
+
+        super().__init__(name, "chocolate", price)
 
 
 if __name__ == '__main__':
